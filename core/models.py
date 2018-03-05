@@ -43,7 +43,7 @@ class Authored(models.Model):
     author = models.ForeignKey(User, verbose_name=u'автор')
 
     def get_author(self):
-        return self.author
+        return NotImplementedError
 
     class Meta:
         abstract = True

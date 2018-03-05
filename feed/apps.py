@@ -8,3 +8,4 @@ class FeedConfig(AppConfig):
 
     def ready(self):
         import feed.signals
+        import feed.api

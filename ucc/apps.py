@@ -8,3 +8,4 @@ class UccConfig(AppConfig):
 
     def ready(self):
         import ucc.signals
+        import ucc.api

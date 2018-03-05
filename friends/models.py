@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.db import models
 from core.models import User
 from ucc.models import EventAble
+from django.contrib.contenttypes.fields import GenericRelation
+from feed.models import Event
 
 
 class FriendRequest(models.Model):
@@ -11,25 +13,32 @@ class FriendRequest(models.Model):
     recipient = models.ForeignKey(User, blank=False, related_name='recipient', verbose_name=u'получатель')
     approved = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        if self.approved:
+            status = u'Подтверждено'
+        else:
+            status = u'Не подтверждено'
+        return u'[{}] {} -> {}'.format(status, self.initiator, self.recipient)
+
     class Meta:
+        unique_together = (('initiator', 'recipient'),)
         verbose_name = u'запрос дружбы'
         verbose_name_plural = u'запросы дружбы'
 
 
 class Friendship(EventAble):
-    first = models.ForeignKey(User, blank=False, related_name='first')
-    second = models.ForeignKey(User, blank=False, related_name='second')
+    friend = models.ForeignKey(User, blank=False, related_name='friends')
+    event = GenericRelation(Event)
 
-    def __str__(self):
-        return u'{} -> {}'.format(self.first.username, self.second.username)
+    def __unicode__(self):
+        return u'{} -> {}'.format(self.author.username, self.friend.username)
 
     def get_description(self):
-        return u'{} добавил в друзья {}'.format(self.first.username, self.second.username)
+        return u'{} добавил в друзья {}'.format(self.author.username, self.friend.username)
 
     def get_author(self):
-        return self.first
+        return self.author
 
     class Meta:
-        unique_together = (('first', 'second'),)
         verbose_name = u'Дружба'
         verbose_name_plural = u'Дружбы'

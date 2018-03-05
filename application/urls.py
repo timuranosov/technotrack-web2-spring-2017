@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.conf import settings
+from .api import router
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'admin/', admin.site.urls),
+    url(r'^accounts/', include('core.urls', namespace='core')),
+    url(r'^social/', include('social_django.urls', namespace='social')),
+    url(r'^api/', include(router.urls), name='rest_framework'),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

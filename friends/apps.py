@@ -8,3 +8,4 @@ class FriendsConfig(AppConfig):
 
     def ready(self):
         import friends.signals
+        import friends.api
