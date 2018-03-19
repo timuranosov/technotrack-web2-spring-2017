@@ -22,15 +22,17 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         q = self.queryset
+        pk = None
         if 'pk' in self.kwargs:
             pk = self.kwargs['pk']
-            return q.filter(
-                (Q(friendship__friend=self.request.user) | Q(pk=self.request.user.pk)) & Q(pk=pk)).distinct()
+            q = q.filter(pk=pk)
 
-        username = q.query_params.get('username')
+        username = self.request.query_params.get('username')
         if username:
-            return q.filter(username=username)
-        return q.filter(pk=self.request.user.pk)
+            q = q.filter(username=username)
+        if not (pk or username):
+            q = q.filter(pk=self.request.user.pk)
+        return q
 
 
 router.register('users', UserViewSet)

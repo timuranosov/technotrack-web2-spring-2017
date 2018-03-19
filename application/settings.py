@@ -13,10 +13,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 from configparser import ConfigParser
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 config = ConfigParser()
 # print os.path.join(BASE_DIR, 'django.conf')
@@ -32,7 +30,6 @@ SECRET_KEY = config.get('main', 'SECRET')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -55,7 +52,6 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'core.User'
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -89,7 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'application.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -100,9 +95,13 @@ DATABASES = {
         'USER': 'Timur',
         'PASSWORD': '12345',
         'HOST': 'localhost',
+        'OPTIONS': {
+            'init_command': 'SET character_set_connection=utf8,collation_connection=utf8_unicode_ci',
+            'charset': 'utf8',
+            'use_unicode': True,
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -121,7 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -161,7 +159,6 @@ SOCIAL_AUTH_VK_OAUTH2_KEY = config.get('VKoauth', 'KEY')
 SOCIAL_AUTH_VK_OAUTH2_SECRET = config.get('VKoauth', 'SECRET')
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email', 'status']
 SOCIAL_AUTH_VK_APP_USER_MODE = 2
-
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import django.db.models.signals as signals
-from .models import Like, LikeAble
+from .models import Like
 
 likes_for_achieve = 2
 
