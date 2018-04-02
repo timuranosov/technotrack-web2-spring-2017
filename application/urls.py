@@ -18,7 +18,7 @@ from django.contrib import admin
 from .api import router
 
 urlpatterns = [
-    url(r'admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('core.urls', namespace='core')),
     url(r'^social/', include('social_django.urls', namespace='social')),
     url(r'^api/', include(router.urls), name='rest_framework'),
