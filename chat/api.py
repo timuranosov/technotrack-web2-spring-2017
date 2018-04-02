@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import serializers, viewsets, permissions
 
 from application.api import router
@@ -7,12 +8,17 @@ from .models import Chat, UserChat, Message
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    author = UserSerializer()
+    author = serializers.HiddenField(default='author.id')
+
+    def validate(self, data):
+        if UserChat.objects.filter(Q(user=self.context['request'].user) & Q(chat=data['chat'])).exists():
+            return data
+        else:
+            raise serializers.ValidationError("Not in chat")
 
     class Meta:
         model = Message
-        fields = ['content', 'author', ]
-        depth = 1
+        fields = ['content', 'author', 'created', 'chat']
 
 
 class ChatSerializer(serializers.ModelSerializer):
@@ -71,11 +77,12 @@ class MessageViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
     def get_queryset(self):
-        q = super(MessageViewSet, self).get_queryset()
-        username = self.request.query_params.get('username')
-        if username:
-            q = q.filter(chat__chats__user__username=username)
-        return q
+        chat_id = self.request.query_params.get('chat')
+        if chat_id:
+            query = Q(chat__chats__user=self.request.user) & Q(chat__id=chat_id)
+        else:
+            query = Q(chat__chats__user=self.request.user)
+        return self.queryset.filter(query)
 
 
 router.register('chats', ChatViewSet)

@@ -21,18 +21,10 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def get_queryset(self):
-        q = self.queryset
-        pk = None
-        if 'pk' in self.kwargs:
-            pk = self.kwargs['pk']
-            q = q.filter(pk=pk)
-
         username = self.request.query_params.get('username')
         if username:
-            q = q.filter(username=username)
-        if not (pk or username):
-            q = q.filter(pk=self.request.user.pk)
-        return q
+            return self.queryset.filter(username=username)
+        return self.queryset.filter(pk=self.request.user.pk)
 
 
 router.register('users', UserViewSet)
