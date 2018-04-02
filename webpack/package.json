@@ -1,0 +1,64 @@
+{
+  "name": "technotrack-web2-spring-2017",
+  "version": "1.0.0",
+  "description": "Technotrack web2 project spring 2017",
+  "main": "index.jsx",
+  "scripts": {
+    "start": "webpack",
+    "build": "NODE_ENV=development webpack"
+  },
+  "babel": {
+    "plugins": [
+      "transform-runtime",
+      "transform-react-remove-prop-types",
+      "transform-react-constant-elements",
+      "transform-react-inline-elements"
+    ]
+  },
+  "dependencies": {
+    "grommet": "^1.10.1",
+    "material-ui": "^0.20.0",
+    "react": "^16.3.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.3.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "file-loader": "^1.1.11",
+    "path": "^0.12.7",
+    "sass-loader": "^6.0.7",
+    "source-map": "^0.7.2",
+    "source-map-loader": "^0.2.3",
+    "style-loader": "^0.20.3",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.4.1",
+    "webpack-bundle-tracker": "^0.3.0",
+    "webpack-cli": "^2.0.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timuranosov/technotrack-web2-spring-2017.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timuranosov/technotrack-web2-spring-2017/issues"
+  },
+  "homepage": "https://github.com/timuranosov/technotrack-web2-spring-2017#readme"
+}
