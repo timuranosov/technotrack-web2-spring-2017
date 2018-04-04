@@ -7,8 +7,8 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 module.exports = {
     entry: {
         app: './App.jsx',
-        testBundle: './test.jsx',
         indexBundle: './index.jsx',
+        testBundle: './test.jsx',
     },
     context: path.resolve(__dirname, './static_src'),
     output: {
