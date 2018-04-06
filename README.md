@@ -1,2 +1,2 @@
-# technotrack-web2-spring-2017
-Technotrack web2 project spring 2017
+# Timur's Social Net
+My mockups: https://app.moqups.com/tumyp.anosov@gmail.com/KTi5UDg2oY/view
