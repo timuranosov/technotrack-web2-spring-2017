@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'social_django',
     'webpack_loader',
+    'generic_relations',
     'social.apps.django_app.default',
     'core.apps.CoreConfig',
     'like.apps.LikeConfig',
