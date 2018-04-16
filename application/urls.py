@@ -15,6 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
+from django.conf.urls.static import static
+
+from core.views import home
 from .api import router
 
 urlpatterns = [
@@ -22,5 +26,16 @@ urlpatterns = [
     url(r'^accounts/', include('core.urls', namespace='core')),
     url(r'^social/', include('social_django.urls', namespace='social')),
     url(r'^api/', include(router.urls), name='rest_framework'),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^$', login_required(home), name='home'),
 ]
+
+if __debug__:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

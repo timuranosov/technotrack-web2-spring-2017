@@ -1,40 +1,47 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CircularProgress from 'material-ui/CircularProgress';
 import PostComponent from './post';
+import PropTypes from 'prop-types';
 
 
 class PostListComponent extends Component {
-  render() {
-    const list = this.props.postList.map(
-      (post, i) => <PostComponent
-        key={i}
-        author={post.author}
-        content={post.content}
-        date={post.date}
-      />,
-    );
-    return (
-      <div>{ this.props.isLoading ?
-        <CircularProgress size={60} thickness={5} /> : list
-      }
-      </div>
-    );
-  }
+    render() {
+        // if (this.props.postList.length === 0) {
+        //   return null;
+        // }
+
+        const list = this.props.postList.map(
+            post => <PostComponent
+                key={post.id}
+                author={post.author}
+                title={post.title}
+                content={post.content}
+                date={post.created}
+            />,
+        );
+        return (
+            <div>{this.props.isLoading ?
+                <CircularProgress size={60} thickness={7}/> : list
+            }
+            </div>
+        );
+    }
 }
+
 PostListComponent.defaultProps = {
-  isLoading: true,
+    isLoading: true,
 };
 
 PostListComponent.propTypes = {
-  postList: React.PropTypes.arrayOf(React.PropTypes.shape({
-    author: React.PropTypes.shape({
-      username: React.PropTypes.string,
-      avatarUrl: React.PropTypes.string,
-    }).isRequired,
-    date: React.PropTypes.string.isRequired,
-    content: React.PropTypes.string.isRequired,
-  })).isRequired,
-  isLoading: React.PropTypes.bool,
+    postList: PropTypes.arrayOf.isRequired(PropTypes.shape({
+        author: PropTypes.shape.isRequired({
+            username: PropTypes.string,
+            avatarUrl: PropTypes.string,
+        }).isRequired,
+        date: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
+    })).isRequired,
+    isLoading: PropTypes.bool,
 };
 
 export default PostListComponent;

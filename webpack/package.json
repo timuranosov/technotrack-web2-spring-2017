@@ -1,6 +1,6 @@
 {
   "name": "technotrack-web2-spring-2017",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Technotrack web2 project spring 2017",
   "main": "index.jsx",
   "scripts": {
@@ -16,6 +16,7 @@
     ]
   },
   "dependencies": {
+    "extract-text-webpack-plugin": "^3.0.2",
     "grommet": "^1.10.1",
     "material-ui": "^0.20.0",
     "react": "^16.3.0",
@@ -37,6 +38,11 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "bootstrap": "^3.3.7",
+    "bootstrap-css": "^3.3.7",
+    "bootstrap-loader": "^2.0.0",
+    "bootstrap-sass": "^3.3.7",
+    "bootstrap-webpack": "0.0.6",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -44,7 +50,14 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.11",
+    "imports-loader": "^0.7.1",
+    "jscs": "^3.0.7",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.2",
+    "node-sass": "^4.5.1",
     "path": "^0.12.7",
+    "prop-types": "^15.6.1",
+    "resolve-url-loader": "^2.0.2",
     "sass-loader": "^6.0.7",
     "source-map": "^0.7.2",
     "source-map-loader": "^0.2.3",
@@ -52,7 +65,9 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.4.1",
     "webpack-bundle-tracker": "^0.3.0",
-    "webpack-cli": "^2.0.13"
+    "webpack-cli": "^2.0.13",
+    "webpack-split-by-path": "^2.0.0",
+    "with-query": "^1.0.2"
   },
   "repository": {
     "type": "git",
