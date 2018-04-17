@@ -1,94 +1,33 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Panel, Row} from 'react-bootstrap';
 import Avatar from 'material-ui/Avatar';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import PropTypes from 'prop-types';
+
 import ModalComponent from './modal';
+import {showModal} from '../actions/posts';
 
 class PostComponent extends Component {
-    state = {
-        user: {
-            pk: 0,
-            username: '',
-            first_name: '',
-            last_name: '',
-            avatar: '',
-        },
-        date: '',
-        content_object: '',
-        title: '',
-        showModal: false,
-    };
-
-    componentDidMount() {
-        if (this.props.content_object) {
-            fetch(this.props.content_object,
-                {
-                    method: 'GET',
-                    credentials: 'same-origin',
-                })
-                .then(promise => promise.json())
-                .then((json) => {
-                    this.setState({
-                        content: json.content,
-                    });
-                });
-        } else {
-            this.setState({
-                content: this.props.content,
-            });
-        }
-        this.setState({
-            date: this.props.date,
-            title: this.props.title,
-        });
-
-        if (this.props.author) {
-            fetch(this.props.author,
-                {
-                    method: 'GET',
-                    credentials: 'same-origin',
-                })
-                .then(promise => promise.json())
-                .then((json) => {
-                    this.setState({
-                        user: json,
-                    });
-                });
-        } else {
-            this.setState({
-                user: this.props.user,
-            });
-        }
-    }
-
-    showModal = (op) => {
-        this.setState({
-            showModal: op,
-        });
-    };
-
     render() {
         let headerTag = null;
-        if (this.state.title) {
-            headerTag = <div><Avatar src={this.state.user.avatar} size={30}/> {this.state.title}</div>;
+        if (this.props.title) {
+            headerTag = <div><Avatar src={this.props.author.avatar} size={30}/> {this.props.title}</div>;
         }
         return (
             <div>
                 <ModalComponent
-                    showModal={this.state.showModal}
+                    showModal={this.props.modal}
                     onClickShow={this.showModal}
-                    user={this.state.user}
-                    content={this.state.content}
-                    date={this.state.date}
+                    id={this.props.id}
                 />
                 <Row>
                     <Panel
-                        onDoubleClick={() => this.showModal(true)}
+                        onDoubleClick={() => this.props.showModal(this.props.id, true)}
                         header={headerTag}
-                        footer={this.state.date}
-                        bsStyle="info"
-                    >
-                        {this.state.content}
+                        footer={this.props.date}
+                        bsStyle="info">
+                        {this.props.content}
                     </Panel>
                 </Row>
             </div>
@@ -96,32 +35,27 @@ class PostComponent extends Component {
     }
 }
 
-PostComponent.defaultProps = {
-    content: '',
-    content_object: '',
-    author: '',
-    user: {
-        pk: 0,
-        username: '',
-        first_name: '',
-        last_name: '',
-        avatar: '../media/avatars/SH.jpg',
-    },
-    title: '',
-};
-
 PostComponent.propTypes = {
-    author: PropTypes.string,
-    user: PropTypes.shape({
-        pk: PropTypes.number,
-        username: PropTypes.string,
-        avatar: PropTypes.string,
-    }),
-    date: PropTypes.string.isRequired,
-    content: PropTypes.string,
-    content_object: PropTypes.string,
-    title: PropTypes.string,
+    id: PropTypes.number.isRequired,
 };
 
+const mapStateToProps = (state, props) => ({
+    author: state.users[state.posts.posts[props.id].author],
+    content: state.posts.posts[props.id].content_object.content,
+    date: state.posts.posts[props.id].created,
+    title: state.posts.posts[props.id].title,
+    content_object: state.posts.posts[props.id].content_object,
+    modal: state.posts.posts[props.id].modal,
+});
 
-export default PostComponent;
+const mapDispatchToProps = distpatch => ({
+    ...bindActionCreators(showModal,
+        {},
+        distpatch),
+
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(PostComponent);

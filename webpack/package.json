@@ -18,10 +18,20 @@
   "dependencies": {
     "extract-text-webpack-plugin": "^3.0.2",
     "grommet": "^1.10.1",
+    "history": "^4.7.2",
+    "immutable": "^3.8.2",
     "material-ui": "^0.20.0",
+    "normalizr": "^3.2.4",
     "react": "^16.3.0",
+    "react-addons-update": "^15.6.2",
     "react-bootstrap": "^0.32.1",
-    "react-dom": "^16.3.0"
+    "react-dom": "^16.3.0",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -43,6 +53,8 @@
     "bootstrap-loader": "^2.0.0",
     "bootstrap-sass": "^3.3.7",
     "bootstrap-webpack": "0.0.6",
+    "chai": "^3.5.0",
+    "chai-immutable": "^1.6.0",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -57,6 +69,7 @@
     "node-sass": "^4.5.1",
     "path": "^0.12.7",
     "prop-types": "^15.6.1",
+    "react-update": "^0.4.4",
     "resolve-url-loader": "^2.0.2",
     "sass-loader": "^6.0.7",
     "source-map": "^0.7.2",

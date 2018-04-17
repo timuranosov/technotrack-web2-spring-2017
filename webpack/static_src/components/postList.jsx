@@ -1,47 +1,29 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import CircularProgress from 'material-ui/CircularProgress';
-import PostComponent from './post';
-import PropTypes from 'prop-types';
-
 
 class PostListComponent extends Component {
-    render() {
-        // if (this.props.postList.length === 0) {
-        //   return null;
-        // }
 
-        const list = this.props.postList.map(
-            post => <PostComponent
-                key={post.id}
-                author={post.author}
-                title={post.title}
-                content={post.content}
-                date={post.created}
-            />,
-        );
+    render() {
         return (
-            <div>{this.props.isLoading ?
-                <CircularProgress size={60} thickness={7}/> : list
+            <div> {this.props.isLoading ?
+                <CircularProgress size={60} thickness={7}/> : this.props.postList
             }
             </div>
         );
     }
 }
 
-PostListComponent.defaultProps = {
-    isLoading: true,
-};
+const mapStateToProps = state => ({
+    postList: state.posts.postList,
+});
 
-PostListComponent.propTypes = {
-    postList: PropTypes.arrayOf.isRequired(PropTypes.shape({
-        author: PropTypes.shape.isRequired({
-            username: PropTypes.string,
-            avatarUrl: PropTypes.string,
-        }).isRequired,
-        date: PropTypes.string.isRequired,
-        content: PropTypes.string.isRequired,
-    })).isRequired,
-    isLoading: PropTypes.bool,
-};
+const mapDispatchToProps = distpatch => ({
+    ...bindActionCreators({}, distpatch),
+});
 
-export default PostListComponent;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(PostListComponent);

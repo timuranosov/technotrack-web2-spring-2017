@@ -10,10 +10,9 @@ class PostFormComponent extends Component {
     onCreate = (e) => {
         e.preventDefault();
         this.props.onCreate({
-            author: {
-                username: 'user1',
-                avatarUrl: '/',
-            },
+            user: this.props.user,
+            date: new Date().toString(),
+            title: this.props.user.username + ' написал пост',
             ...this.state,
         });
         this.setState({
@@ -34,7 +33,7 @@ class PostFormComponent extends Component {
                     <FormControl
                         type="text"
                         componentClass="textarea"
-                        placeholder="Что у вас нового?"
+                        placeholder="Enter your news"
                         value={this.state.content}
                         onChange={this.onChange}
                         name="content"
@@ -57,6 +56,11 @@ class PostFormComponent extends Component {
 
 PostFormComponent.propTypes = {
     onCreate: PropTypes.func.isRequired,
+    user: PropTypes.shape.isRequired({
+        pk: PropTypes.number,
+        username: PropTypes.string,
+        avatar: PropTypes.string,
+    }),
 };
 
 export default PostFormComponent;

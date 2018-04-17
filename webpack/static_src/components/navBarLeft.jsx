@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
 import {Col, Nav, NavItem} from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {selectPage} from '../actions/routing';
+
 
 class NavBarLeft extends Component {
     state = {
         currentPageName: 'news',
     };
 
-    onSelect = (eventKey) => {
-        this.props.onSelect(eventKey);
-        this.setState({
-            currentPageName: eventKey,
-        });
+    onSelect = (currentMenu) => {
+        this.props.selectPage(currentMenu);
     };
 
     render() {
         return (
             <Col xs={4} md={2}>
-                <Nav bsStyle="pills" stacked activeKey={this.state.currentPageName}>
+                <Nav bsStyle="pills" stacked activeKey={this.props.currentPage}>
                     <NavItem onSelect={this.onSelect} eventKey="mypage">
                         Моя страница
                     </NavItem>
@@ -39,8 +39,17 @@ class NavBarLeft extends Component {
     }
 }
 
-NavBarLeft.propTypes = {
-    onSelect: PropTypes.func.isRequired,
-};
+const mapStateToProps = state => ({
+    currentPage: state.router.currentPage,
+});
 
-export default NavBarLeft;
+const mapDispatchToProps = distpatch => ({
+    ...bindActionCreators({
+        selectPage,
+    }, distpatch),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(NavBarLeft);

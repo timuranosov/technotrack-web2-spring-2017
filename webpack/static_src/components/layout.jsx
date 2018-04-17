@@ -2,6 +2,8 @@
 /* global window: true */
 import React, {Component} from 'react';
 import {Col, Grid} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import '../styles/bootstrap-3/css/bootstrap.css';
 import NavBarTop from './navBarTop';
@@ -10,19 +12,10 @@ import PostListLayoutComponent from './postListLayout';
 import FriendListLayout from './friendList';
 import UserPage from './userPage';
 import ChatsListComponent from './chatsList';
+import PeopleSearchComponent from './peopleSearch';
+import {setProfile} from '../actions/account';
 
 class LayoutComponent extends Component {
-    state = {
-        user: {
-            pk: 0,
-            username: '',
-            first_name: '',
-            last_name: '',
-            avatar: null,
-        },
-        currentPageName: 'news',
-    };
-
     componentDidMount() {
         fetch('http://localhost:8000/api/users/?format=json',
             {
@@ -31,9 +24,7 @@ class LayoutComponent extends Component {
             })
             .then(promise => promise.json())
             .then((json) => {
-                this.setState({
-                    user: json[0],
-                });
+                this.props.setProfile(json[0]);
             });
     }
 
@@ -43,20 +34,15 @@ class LayoutComponent extends Component {
         });
     };
 
-    onMenuSelect = (currentMenu) => {
-        this.setState({
-            currentPageName: currentMenu,
-        });
-    };
-
     render() {
         let page = null;
-        switch (this.state.currentPageName) {
+        const News = <PostListLayoutComponent/>;
+        switch (this.props.currentPage) {
             case 'news':
                 page = <PostListLayoutComponent/>;
                 break;
             case 'mypage':
-                page = <UserPage user={this.state.user}/>;
+                page = <UserPage id={this.props.profile.id}/>;
                 break;
             case 'friends':
                 page = <FriendListLayout/>;
@@ -64,13 +50,16 @@ class LayoutComponent extends Component {
             case 'chats':
                 page = <ChatsListComponent/>;
                 break;
+            case 'people':
+                page = <PeopleSearchComponent/>;
+                break;
             default:
                 page = <PostListLayoutComponent/>;
         }
 
         return (
             <div>
-                <NavBarTop user={this.state.user}/>
+                <NavBarTop user={this.props.profile}/>
                 <Grid fluid>
                     <NavBarLeft onSelect={this.onMenuSelect}/>
                     <Col xs={12} md={8}>
@@ -86,4 +75,18 @@ LayoutComponent.propTypes = {
     onSelect: PropTypes.func.isRequired,
 };
 
-export default LayoutComponent;
+const mapStateToProps = state => ({
+    currentPage: state.router.currentPage,
+    profile: state.layout.account,
+});
+
+const mapDispatchToProps = distpatch => ({
+    ...bindActionCreators({
+        setProfile,
+    }, distpatch),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(LayoutComponent);

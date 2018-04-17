@@ -55,11 +55,10 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
         new BundleTracker({filename: './webpack-stats.json'}),
     ],
 
     devtool: NODE_ENV === 'development'
-        ? 'inline-source-map'
+        ? 'cheap-module-eval-source-map'
         : 'cheap-module-inline-source-map',
 };

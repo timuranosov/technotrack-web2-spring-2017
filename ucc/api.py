@@ -5,11 +5,13 @@ from rest_framework import serializers, viewsets, permissions
 from application.api import router
 from application.permissions import IsOwnerOrReadOnly
 from .models import Post
+from core.api import UserSerializer
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     likes_count = serializers.IntegerField(source='likes.count', read_only=True)
     created = serializers.DateTimeField(read_only=True, format='%X %d %b %Y')
+    author = UserSerializer()
 
     class Meta:
         model = Post

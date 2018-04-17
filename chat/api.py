@@ -4,12 +4,35 @@ from rest_framework.pagination import PageNumberPagination
 
 from application.api import router
 from application.permissions import IsOwnerOrReadOnly
-from core.api import UserSerializer
 from .models import Chat, UserChat, Message
 
 
-class MessageSerializer(serializers.ModelSerializer):
+class ChatSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.id')
+    last_message = serializers.SerializerMethodField('get_message')
+
+    class Meta:
+        model = Chat
+        fields = ['pk', 'title', 'author', 'created', 'last_message']
+        depth = 1
+
+    @staticmethod
+    def get_message(obj):
+        last_message = obj.messages.all().order_by('-created')[0]
+        avatar = None
+        if last_message.author.avatar:
+            avatar = last_message.author.avatar.url
+        return {
+            'author': last_message.author.username,
+            'avatar': avatar,
+            'content': last_message.content,
+        }
+
+
+class MessageSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.HiddenField(default='author.id')
+
+    # chat = ChatSerializer()
 
     def validate(self, data):
         if UserChat.objects.filter(Q(user=self.context['request'].user) & Q(chat=data['chat'])).exists():
@@ -22,38 +45,16 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = ['content', 'author', 'created', 'chat']
 
 
-class ChatSerializer(serializers.ModelSerializer):
-    author = UserSerializer()
-    messages = MessageSerializer(many=True)
-    last_message = serializers.SerializerMethodField('get_message')
+class UserChatSerializer(serializers.ModelSerializer):
+    # user = UserSerializer()
+    # chat = ChatSerializer(read_only=True)
 
-    class Meta:
-        model = Chat
-        fields = ['pk', 'title', 'author', 'created', 'last_message']
-        depth = 1
-
-    @staticmethod
-    def get_message(obj):
-        last_message = obj.messages.all().order_by('-created')[0]
-        avatar = None
-
-        if last_message.author.avatar:
-            avatar = last_message.author.avatar.url
-
-        return {
-            'author': last_message.author.username,
-            'avatar': avatar,
-            'content': last_message.content,
-        }
-
-
-class UserChatSerializer(serializers.HyperlinkedModelSerializer):
-    chat = ChatSerializer()
+    # validate
 
     class Meta:
         model = UserChat
-        fields = ['chat', ]
-        depth = 1
+        fields = ['chat', 'user']
+        # depth = 1
 
 
 class ChatViewSet(viewsets.ModelViewSet):
@@ -68,8 +69,9 @@ class ChatViewSet(viewsets.ModelViewSet):
         q = super(ChatViewSet, self).get_queryset()
         if self.request.query_params.get('username'):
             username = self.request.query_params.get('username')
+            # q = q.filter(author__username=self.request.query_params.get('username'))
             q = q.filter(chats__user__username=username)
-        return q
+        return q.prefetch_related('author')
 
 
 class UserChatViewSet(viewsets.ModelViewSet):
@@ -103,8 +105,8 @@ class MessageViewSet(viewsets.ModelViewSet):
         q = self.queryset.filter(chat__chats__user=self.request.user)
         chat_id = self.request.query_params.get('chat')
         if chat_id:
-            q = q.filter(chat_id=chat_id)
-        return q
+            q = q.filter(chat__id=chat_id)
+        return q.prefetch_related('chat')
 
 
 router.register('chats', ChatViewSet)
