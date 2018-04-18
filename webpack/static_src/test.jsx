@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import {ConnectedRouter} from 'react-router-redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './styles/bootstrap-3/css/bootstrap.css';
