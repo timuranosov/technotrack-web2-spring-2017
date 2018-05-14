@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'webpack_loader',
     'templated_email',
+    'haystack',
     'django_celery_beat',
     'generic_relations',
     'social.apps.django_app.default',
@@ -219,3 +220,11 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_TASK_SERIALIZER = 'json'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+

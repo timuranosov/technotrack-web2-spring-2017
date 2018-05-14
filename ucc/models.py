@@ -10,6 +10,7 @@ from like.models import LikeAble
 
 
 class Post(LikeAble, EventAble):
+    title = models.CharField(max_length=256, default='title')
     content = models.TextField(blank=False, verbose_name=u'содержание')
     event = GenericRelation(Event)
 

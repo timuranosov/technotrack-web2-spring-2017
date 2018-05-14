@@ -15,7 +15,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'content', 'author', 'created', 'likes_count')
+        fields = ('id', 'content', 'author', 'title', 'created', 'likes_count')
 
 
 class PostViewSet(viewsets.ModelViewSet):

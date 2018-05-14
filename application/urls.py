@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^api/', include(router.urls), name='rest_framework'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^$', login_required(home), name='home'),
+    url(r'^search/', include('haystack.urls')),
 ]

@@ -30,6 +30,7 @@ class UserChat(models.Model):
 
 
 class Message(Authored, Dated):
+    title = models.CharField(max_length=50, default='')
     content = models.TextField(max_length=1024, verbose_name=u'сообщение')
     chat = models.ForeignKey(Chat, related_name='messages', verbose_name=u'сообщения')
 
