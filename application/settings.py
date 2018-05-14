@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'social_django',
     'widget_tweaks',
     'webpack_loader',
+    'templated_email',
+    'django_celery_beat',
     'generic_relations',
     'social.apps.django_app.default',
     'core.apps.CoreConfig',
@@ -54,7 +56,9 @@ INSTALLED_APPS = [
     'friends.apps.FriendsConfig',
 ]
 
+# User settings
 AUTH_USER_MODEL = 'core.User'
+ACCOUNT_ACTIVATION_DAYS = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -129,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -198,3 +202,20 @@ WEBPACK_LOADER = {
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
+
+
+ADMINS = (
+    ('tumyp.anosov@gmail.com', 'Timur Anosov'),
+)
+# E-MAIL settings
+EMAIL_PORT = 1025
+TEMPLATED_EMAIL_BACKEND = 'templated_email.backends.vanilla_django.TemplateBackend'
+TEMPLATED_EMAIL_AUTO_PLAIN = True
+TEMPLATED_EMAIL_FILE_EXTENSION = 'html'
+
+# Celery settings
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TASK_SERIALIZER = 'json'

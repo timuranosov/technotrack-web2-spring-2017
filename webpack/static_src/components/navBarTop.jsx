@@ -9,7 +9,7 @@ class NavBarTop extends Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="/">SoNet</a>
+                        <a href="/">MySocialNet</a>
                     </Navbar.Brand>
                     <Navbar.Toggle/>
                 </Navbar.Header>

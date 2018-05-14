@@ -1,10 +1,12 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from django.db import models
-from like.models import LikeAble
-from feed.models import EventAble
+
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db import models
+
 from feed.models import Event
+from feed.models import EventAble
+from like.models import LikeAble
 
 
 class Post(LikeAble, EventAble):
@@ -20,3 +22,6 @@ class Post(LikeAble, EventAble):
 
     def get_author(self):
         return self.author
+
+    def __str__(self):
+        return '{}: {}'.format(self.author.username, self.content[:20])

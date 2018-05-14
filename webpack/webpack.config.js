@@ -6,7 +6,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
     entry: {
-        app: './App.jsx',
+        app: './app.jsx',
         indexBundle: './index.jsx',
         testBundle: './test.jsx',
     },

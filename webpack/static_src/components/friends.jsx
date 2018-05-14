@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CircularProgress from 'material-ui/CircularProgress';
-import {fetchFriends, loadFriends, loadFriendsFail, loadFriendsSuccess} from '../actions/friendship';
+import {fetchFriends} from '../actions/friendship';
 import {FRIENDSHIP_REQUESTS, FRIENDSHIP_WAITINGS, FRIENDSHIPS} from './friend';
 
 class FriendsComponent extends Component {
@@ -36,7 +36,7 @@ class FriendsComponent extends Component {
         }
 
         return (
-            <div> {this.props.isLoading && this.props.type === FRIENDSHIPS ?
+            <div> {this.props.isLoading & this.props.type === FRIENDSHIPS ?
                 <CircularProgress size={60} thickness={7}/> :
                 listProps
             }
@@ -58,9 +58,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = distpatch => ({
     ...bindActionCreators({
-        loadFriends,
-        loadFriendsSuccess,
-        loadFriendsFail,
         fetchFriends,
     }, distpatch),
 });
